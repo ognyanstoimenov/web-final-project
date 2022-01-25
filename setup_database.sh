@@ -1,0 +1,1 @@
+sudo mysqld_safe --user=root & mysql -u root < webproject.mysql
