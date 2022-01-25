@@ -16,16 +16,17 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 ?>
 
-<form action="form.php" method="post">
-  <label for="email">Email
-  </label>
-  <input type="email" name="email" required />
-  <label for="password">Password</label>
-  <input type="password" name="password" required />
-  <label for="password">Password Again</label>
-  <input type="password_again" name="password_again" required />
-  <input type="submit" value="Sign up" />
-</form>
+<?php
+session_start();
+
+$user = $_SESSION['user'];
+if ($user) {
+    header("Location: main.php");
+}
+else {
+    header("Location: login.php");
+}
+?>
 
 </body>
 </html>

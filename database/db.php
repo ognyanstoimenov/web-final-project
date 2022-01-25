@@ -2,24 +2,38 @@
 
 class Db
 {
-    private $connection;
+    private PDO $connection;
+    private static ?Db $instance = null;
 
-    public function __construct() {
+    private function __construct() {
         $host = "localhost";
         $dbname = "webproject";
         $username = "root";
-        $password = ""; 
-
-        $this->connection = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $password = "";
+        try {
+            $this->connection = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        } catch (PDOException $e) {
+            echo "";
+        }
     }
 
-    public function getConnection() {
+    public static function getInstance(): Db
+    {
+        if (self::$instance == null) {
+            self::$instance = new Db();
+        }
+
+        return self::$instance;
+    }
+
+    public function getConnection(): PDO
+    {
         return $this->connection;
     }
 
-    public function getUserTableName() {
+    public function getUserTableName(): string
+    {
         return "Users";
     }
 }
 
-?>

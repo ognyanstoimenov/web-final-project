@@ -6,14 +6,24 @@ error_reporting(E_ALL);
 if ($_POST) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $password_again = $_POST['password_again'];
-    $userService = new UserService(new Db());
-    
-    if ($userService->registerUser($email, $password)) {
-        echo "Sign up successful.";
-    } else {
-        header('Location: index.php');
-        echo "Error";
+    $isRegisterForm = isset($_POST['REGISTER']);
+    $userService = new UserService(Db::getInstance());
+
+    if($isRegisterForm) {
+        $password_again = $_POST['password_again'];
+        if ($userService->registerUser($email, $password)) {
+            session_start();
+            $_SESSION['user'] = $email;
+            header('Location: main.php');
+        } else {
+            header('Location: login.php');
+            echo "Error";
+        }
     }
+
+    else { //login
+        echo "not implemented";
+    }
+
+
 }
-?>

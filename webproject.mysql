@@ -2,7 +2,7 @@ create database webproject;
 use webproject;
 CREATE TABLE Users (
   user_id INT NOT NULL AUTO_INCREMENT,
-  email VARCHAR(80) NOT NULL,
+  email VARCHAR(80) NOT NULL UNIQUE,
   password CHAR(41) NOT NULL,
   PRIMARY KEY (user_id)
 );
