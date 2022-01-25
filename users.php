@@ -9,7 +9,7 @@ class User {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->identification = $identification;
-        $this->fullAttendance = false;
+        $this->fullAttendance = 'No';
     }   
 
     function getFirstName (){
