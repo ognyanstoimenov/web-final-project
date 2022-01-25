@@ -12,18 +12,25 @@ if ($_POST) {
     if($isRegisterForm) {
         $password_again = $_POST['password_again'];
         if ($userService->registerUser($email, $password)) {
-            session_start();
-            $_SESSION['user'] = $email;
-            header('Location: main.php');
+            login($email);
         } else {
             header('Location: login.php');
-            echo "Error";
         }
     }
 
     else { //login
-        echo "not implemented";
+        if ($userService->loginUser($email, $password)) {
+            login($email);
+        }
+        else {
+            header('Location: login.php');
+        }
     }
 
+}
 
+function login($email) {
+    session_start();
+    $_SESSION['user'] = $email;
+    header('Location: main.php');
 }
