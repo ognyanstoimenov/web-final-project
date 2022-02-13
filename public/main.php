@@ -15,7 +15,7 @@ if (!$user) {
     header("Location: login.php");
     exit;
 }
-echo "<div class='content' style='margin: 10px'>
+echo "<div class='content'>
     <h1>Logged in as $user</h1>"
 ?>
 </div>

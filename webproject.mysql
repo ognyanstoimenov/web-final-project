@@ -23,3 +23,5 @@ CREATE TABLE Lectures (
     PRIMARY KEY (lecture_id),
     FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
+
+CREATE TABLE LecturePortion ();
