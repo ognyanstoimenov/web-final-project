@@ -1,4 +1,4 @@
-m# web-final-project
+# web-final-project
 Final project for the web course
 
 ## Requirements:
