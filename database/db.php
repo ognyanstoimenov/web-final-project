@@ -35,5 +35,15 @@ class Db
     {
         return "Users";
     }
+
+    public function getLectureTableName(): string
+    {
+        return "Lectures";
+    }
+
+    public function getCourseTableName()
+    {
+        return "Courses";
+    }
 }
 
