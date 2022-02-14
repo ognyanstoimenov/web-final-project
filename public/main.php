@@ -23,17 +23,17 @@ $email = $user->getEmail();
 $courseService = new CourseService(Db::getInstance(), $user);
 $courses = $courseService->getCourses();
 
-?>
-
+echo "
 <div class='content'>
     <h1>Logged in as $email</h1><br>
-    <form id="logout" action="form.php" method="POST">
-        <input type="hidden" name="LOGOUT"/>
-        <input type="submit" value="Log out"/>
+    <form id='logout' action='form.php' method='POST'>
+        <input type='hidden' name='LOGOUT'/>
+        <input type='submit' value='Log out'/>
     </form>
 </div>
     <div>
-
+"
+?>
 <label for="addCourse">Add a course:</label>
 <form id="addCourseForm" method="post">
     <label for="name">Course Name</label>
