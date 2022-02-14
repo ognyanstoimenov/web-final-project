@@ -16,6 +16,7 @@
 require_once __DIR__ . '/../database/lectureportionservice.php';
 require_once __DIR__ . '/../database/db.php';
 require_once __DIR__ . '/../models/student.php';
+require_once __DIR__ . '/../attendanceFileParser.php';
 session_start();
 $user = $_SESSION['user'];
 if (!$user) {
@@ -29,10 +30,15 @@ $lpservice = new LecturePortionService(Db::getInstance(), $lectureId);
 //Test
 
 //TODO: Populate from parsed file
+$studentsAndDate = readLecturePortion('data.txt');
 $students = [];
+foreach($studentsAndDate[0] as $row => $data){
+    $students[] = $lpservice->addStudent($data->getFirstName(),$data->getLastName());
+}
+
 $students[] = $lpservice->addStudent("ognqn", "vakarelski");
 
-$lpservice->addLecturePortion(date("Y-m-d H:i:s"), $students);
+$lpservice->addLecturePortion($studentsAndDate[1], $students);
 
 
 ?>
