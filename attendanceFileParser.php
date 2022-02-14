@@ -1,6 +1,6 @@
 <?php
-include 'models/student.php';
-include 'models/lectureportion.php';
+require_once __DIR__ . '/models/student.php';
+require_once __DIR__ . '/models/lectureportion.php';
 
 function readLecturePortion(String $file){
     $txt_file    = file_get_contents($file);
@@ -31,8 +31,10 @@ function readLecturePortion(String $file){
         
             if (sizeof($row_data)===2){
 
-                $student = new Student($row_data[0],$row_data[1]);
-                array_push($students,$student);
+                $firstName = str_replace(array('.', ' ', "\n", "\t", "\r"), '', $row_data[0]);
+                $lastName = str_replace(array('.', ' ', "\n", "\t", "\r"), '', $row_data[1]);
+                $student = new Student(0, $firstName,$lastName);
+                $students[] = $student;
             }
         }
 

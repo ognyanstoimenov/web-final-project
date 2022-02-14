@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- nly for datatables -->
+    <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
 <div>
@@ -27,20 +30,75 @@ $lpservice = new LecturePortionService(Db::getInstance(), $lectureId);
 //Test
 
 //TODO: Populate from parsed file
-$studentsAndDate = readLecturePortion('data.txt');
 $students = [];
-foreach($studentsAndDate[0] as $row => $data){
-    $students[] = $lpservice->addStudent($data->getFirstName(),$data->getLastName());
+$textFile =  __DIR__ . '/../data.txt';
+$textFile2 = __DIR__ . '/../data2.txt';
+
+$files = [];
+$files[] = $textFile;
+$files[] = $textFile2;
+foreach($files as $file)
+{
+    $studentsAndDate = readLecturePortion($file);
+    foreach($studentsAndDate[0] as $row => $data){
+        $student = $lpservice->addStudent($data->getFirstName(), $data->getLastName());
+        if (!in_array($student, $students))
+        {
+            $students[] = $student;
+        }
+    }
+    $lpservice->addLecturePortion($studentsAndDate[1], $students);
 }
+//$students[] = $lpservice->addStudent("ognqn", "vakarelski");
 
-$students[] = $lpservice->addStudent("ognqn", "vakarelski");
-
-$lpservice->addLecturePortion($studentsAndDate[1], $students);
 
 
 ?>
 </div>
+<div id="myTable">
+
+</div>
 
 
+<table id="table_id" class="display">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <?php
+        $lecturePortionTimes = $lpservice->getStartTimeOfPortions();
+        foreach ($lecturePortionTimes as $time) {
+            $formatted = $time->format('H:i:s');
+            echo "<th>$formatted</th>";
+        }
+        ?>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+        foreach ($students as $student)
+        {
+            $firstName = $student->getFirstName();
+            $lastName = $student->getLastName();
+            echo "<tr>";
+            echo "<td>$firstName $lastName</td>";
+            $lecturePortions = $lpservice->getLecturePortions();
+            foreach ($lecturePortions as $lecturePortion) {
+                if($lecturePortion->hasStudentAttended($student))
+                {
+                    echo "<td style='background-color: green'></td>";
+                }
+                else {
+                    echo "<td style='background-color: red'></td>";
+                }
+            }
+        }
+    ?>
+    </tbody>
+</table>
 </body>
+<script>
+    $(document).ready( function () {
+        $('#table_id').DataTable();
+    } );
+</script>
 </html>

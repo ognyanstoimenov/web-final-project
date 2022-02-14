@@ -12,7 +12,8 @@ class AuthService {
     {
         $userTable = $this->db->getUserTableName();
         $sql = "INSERT INTO $userTable (email, password) VALUES (?, ?)";
-        return $this->executeSql($sql, $email, $password);
+        $this->executeSql($sql, $email, $password);
+        return $this->loginUser($email, $password);
     }
 
     public function loginUser($email, $password) : User|false {

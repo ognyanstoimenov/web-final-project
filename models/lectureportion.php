@@ -4,9 +4,7 @@ class LecturePortion {
     protected $date ;
     protected $id;
 
-
     function __construct(int $id, array $users,DateTime $date) {
-
 
         foreach($users as $row => $data)
         {
@@ -19,6 +17,16 @@ class LecturePortion {
     function getAttendance() {
 
         return $this->presentPeople;
+    }
+
+    function getDate()
+    {
+        return $this->date;
+    }
+
+    function hasStudentAttended(Student $student): bool
+    {
+        return in_array($student, $this->presentPeople);
     }
 
 }
