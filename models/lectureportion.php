@@ -29,5 +29,10 @@ class LecturePortion {
         return in_array($student, $this->presentPeople);
     }
 
+    function getId()
+    {
+        return $this->id;
+    }
+
 }
 ?>
