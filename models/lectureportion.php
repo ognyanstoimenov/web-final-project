@@ -4,7 +4,9 @@ class LecturePortion {
     protected $date ;
     protected $id;
 
+
     function __construct(int $id, array $users,DateTime $date) {
+
 
         foreach($users as $row => $data)
         {
