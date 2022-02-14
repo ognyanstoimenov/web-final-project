@@ -1,21 +1,21 @@
 <?php
 include 'users.php';
 class LecturePortion {
-    protected $presentPeople  = [];
+    protected array $presentPeople  = [];
     protected $date ;
 
-    function __construct(array $users,string $date) {
+    function __construct(array $users,DateTime $date) {
 
         foreach($users as $row => $data)
         {
             $this->presentPeople[] = $data;
         }
         $this->date = $date;
-    }   
+    }
 
     function getAttendance() {
 
-        return $presentPeople;
+        return $this->presentPeople;
     }
 
 }

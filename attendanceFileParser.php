@@ -1,5 +1,6 @@
 <?php
-include 'student.php';
+include 'models/student.php';
+include 'models/lecturePortion.php';
 $txt_file    = file_get_contents('data.txt');
 $rows        = explode("\n", $txt_file);
 $date;
@@ -18,7 +19,7 @@ foreach($rows as $row => $data)
     }else{
 
         if(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $data) === "Sorted by last name:"){
-            print_r("end");
+            
             break;
         }
         $row_data = explode(' ', $data);
@@ -31,6 +32,7 @@ foreach($rows as $row => $data)
     }
 
 }
-// print_r($students);
-// print_r($date);
+
+$newLecturePortion = new LecturePortion($students,$date);
+return $newLecturePortion;
 ?>
