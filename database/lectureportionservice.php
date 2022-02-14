@@ -5,7 +5,7 @@ class LecturePortionService
     private Db $db;
     private int $currentLectureId;
 
-    private array $lecturePortions;
+    private array $lecturePortions = [];
 
     public function __construct($db, $currentLectureId)
     {
@@ -14,9 +14,23 @@ class LecturePortionService
         $this->getLecturePortionsFromDb();
     }
 
+    private function sortLpByDate()
+    {
+        usort($this->lecturePortions, function ($a,$b)
+        {
+           if ($a->getDate() >= $b->getDate())
+           {
+                return 1;
+           }
+           else {
+               return -1;
+           }
+        });
+    }
 
     public function getLecturePortions()
     {
+        $this->sortLpByDate();
         return $this->lecturePortions;
     }
 
@@ -85,7 +99,17 @@ class LecturePortionService
         return false;
     }
 
-    private function getStudentsForLecturePortion($lecturePortionId)
+    public function getAllStudents() : array
+    {
+        $students = [];
+        foreach($this->lecturePortions as $lecturePortion)
+        {
+            $students = array_merge($students, $lecturePortion->getAttendance());
+        }
+        return array_unique($students, SORT_REGULAR);
+    }
+
+    private function getStudentsForLecturePortion($lecturePortionId): array
     {
         $junctionTable = $this->db->getJunctionTableName();
         $studentsTable = $this->db->getStudentTableName();
@@ -107,6 +131,7 @@ class LecturePortionService
     public function getStartTimeOfPortions() : array
     {
         $times = [];
+        $this->sortLpByDate();
         foreach ($this->lecturePortions as $lecturePortion)
         {
             $times[] = $lecturePortion->getDate();

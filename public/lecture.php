@@ -11,7 +11,6 @@
     <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-<div>
 <?php
 require_once __DIR__ . '/../database/lectureportionservice.php';
 require_once __DIR__ . '/../database/db.php';
@@ -26,39 +25,37 @@ if (!$user) {
 
 $lectureId = $_GET['lectureId'];
 $lpservice = new LecturePortionService(Db::getInstance(), $lectureId);
+$allstudents = $lpservice->getAllStudents();
 
-//Test
-
-//TODO: Populate from parsed file
-$students = [];
-$textFile =  __DIR__ . '/../data.txt';
-$textFile2 = __DIR__ . '/../data2.txt';
-
-$files = [];
-$files[] = $textFile;
-$files[] = $textFile2;
-foreach($files as $file)
+if(isset($_SESSION['FILE_UPLOADED']))
 {
-    $studentsAndDate = readLecturePortion($file);
-    foreach($studentsAndDate[0] as $row => $data){
-        $student = $lpservice->addStudent($data->getFirstName(), $data->getLastName());
-        if (!in_array($student, $students))
-        {
-            $students[] = $student;
+    $textFile =  __DIR__ . '/../uploads/data.txt';
+
+    $files = [];
+    $files[] = $textFile;
+    foreach($files as $file)
+    {
+        $fileStudents = [];
+        $studentsAndDate = readLecturePortion($file);
+        foreach($studentsAndDate[0] as $row => $data){
+            $student = $lpservice->addStudent($data->getFirstName(), $data->getLastName());
+            if(!in_array($student, $allstudents))
+            {
+                $allstudents[] = $student;
+            }
+            $fileStudents[] = $student;
         }
+        $lpservice->addLecturePortion($studentsAndDate[1], $fileStudents);
     }
-    $lpservice->addLecturePortion($studentsAndDate[1], $students);
+    unset($_SESSION['FILE_UPLOADED']);
 }
-//$students[] = $lpservice->addStudent("ognqn", "vakarelski");
-
-
-
 ?>
-</div>
-<div id="myTable">
 
-</div>
-
+<form action="uploadFile.php" method="post" enctype="multipart/form-data">
+    Choose attendance file:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload" name="submit">
+</form>
 
 <table id="table_id" class="display">
     <thead>
@@ -75,7 +72,7 @@ foreach($files as $file)
     </thead>
     <tbody>
     <?php
-        foreach ($students as $student)
+        foreach ($allstudents as $student)
         {
             $firstName = $student->getFirstName();
             $lastName = $student->getLastName();
@@ -85,10 +82,10 @@ foreach($files as $file)
             foreach ($lecturePortions as $lecturePortion) {
                 if($lecturePortion->hasStudentAttended($student))
                 {
-                    echo "<td style='background-color: green'></td>";
+                    echo "<td style='background-color: green'><p hidden>a</p> </td>";
                 }
                 else {
-                    echo "<td style='background-color: red'></td>";
+                    echo "<td style='background-color: red'><p hidden>b</p></td>";
                 }
             }
         }
