@@ -1,5 +1,5 @@
 <?php 
-class User {
+class Userz {
     protected $firstName = 'aMemberVar Member Variable';
     protected $lastName = 'aMemberFunc';
     protected $identification = '';

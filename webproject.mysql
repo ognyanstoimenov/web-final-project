@@ -11,7 +11,7 @@ CREATE TABLE Courses (
 	course_id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(80) NOT NULL UNIQUE,
 	course_type ENUM ('Z', 'I'),
-	user_id int,
+	user_id INT,
 	PRIMARY KEY (course_id),
 	FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
@@ -19,9 +19,29 @@ CREATE TABLE Courses (
 CREATE TABLE Lectures (
     lecture_id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(80) NOT NULL UNIQUE,
-    course_id int,
+    course_id INT,
     PRIMARY KEY (lecture_id),
     FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
 
-CREATE TABLE LecturePortion ();
+CREATE TABLE LecturePortions (
+   lecture_portion_id INT NOT NULL AUTO_INCREMENT,
+   date DATE,
+   lecture_id INT,
+   PRIMARY KEY (lecture_portion_id),
+   FOREIGN KEY (lecture_id) REFERENCES Lectures(lecture_id)
+);
+
+CREATE TABLE Students (
+   student_id INT NOT NULL AUTO_INCREMENT,
+   name VARCHAR(80) NOT NULL,
+   PRIMARY KEY (student_id)
+);
+
+CREATE TABLE Students_LecturePortions_Junction (
+   student_id INT NOT NULL,
+   lecture_portion_id INT NOT NULL,
+   PRIMARY KEY (student_id, lecture_portion_id),
+   FOREIGN KEY (student_id) REFERENCES Students(student_id),
+   FOREIGN KEY (lecture_portion_id) REFERENCES LecturePortions(lecture_portion_id)
+);
