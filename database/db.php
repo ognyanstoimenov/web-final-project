@@ -45,5 +45,20 @@ class Db
     {
         return "Courses";
     }
+
+    public function getLecturePortionTableName()
+    {
+        return "LecturePortions";
+    }
+
+    public function getJunctionTableName()
+    {
+        return "Students_LecturePortions_Junction";
+    }
+
+    public function getStudentTableName()
+    {
+        return "Students";
+    }
 }
 

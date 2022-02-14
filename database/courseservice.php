@@ -4,7 +4,7 @@ class CourseService {
     private Db $db;
     private User $currentUser;
 
-    private array $courses;
+    private array $courses = [];
 
     public function __construct($db, $currentUser)
     {
@@ -35,8 +35,21 @@ class CourseService {
         }
     }
 
+    public function getCourseById($id): Course|false
+    {
+        foreach ($this->courses as $course)
+        {
+            if ($course->getCourseId() == $id)
+            {
+                return $course;
+            }
+        }
+        return false;
+    }
+
     public function getCourses() : array
     {
         return $this->courses;
     }
+
 }
