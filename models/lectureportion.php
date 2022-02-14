@@ -19,5 +19,15 @@ class LecturePortion {
         return $this->presentPeople;
     }
 
+    function getDate()
+    {
+        return $this->date;
+    }
+
+    function hasStudentAttended(Student $student): bool
+    {
+        return in_array($student, $this->presentPeople);
+    }
+
 }
 ?>

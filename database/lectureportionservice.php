@@ -85,4 +85,15 @@ class LecturePortionService
         return $students;
 
     }
+
+    public function getStartTimeOfPortions() : array
+    {
+        $times = [];
+        foreach ($this->lecturePortions as $lecturePortion)
+        {
+            $times[] = $lecturePortion->getDate();
+        }
+
+        return $times;
+    }
 }

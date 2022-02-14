@@ -16,7 +16,7 @@
     <label for="password">Password</label>
     <input type="password" name="password" required /><br>
     <label for="password">Password Again</label>
-    <input type="password_again" name="password_again" required /><br>
+    <input type="password" name="password_again" required /><br>
     <input type="hidden" name="REGISTER"/>
     <input type="submit" value="Sign up" />
     </form>
