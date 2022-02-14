@@ -4,9 +4,3 @@
 
 github repo: https://github.com/ognyanstoimenov/web-final-project
 https://github.com/ognyanstoimenov/web-final-project/projects/1 - тук е описано разпределението на текущите задачи.
-
-остава да довършим
-- дб модели
-- показване на курсовете от базата за съответния потребител
-- трупане на точки
-- стилизиране на страницата
