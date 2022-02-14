@@ -30,15 +30,27 @@ $lpservice = new LecturePortionService(Db::getInstance(), $lectureId);
 //Test
 
 //TODO: Populate from parsed file
-$studentsAndDate = readLecturePortion('data.txt');
 $students = [];
-foreach($studentsAndDate[0] as $row => $data){
-    $students[] = $lpservice->addStudent($data->getFirstName(),$data->getLastName());
+$textFile =  __DIR__ . '/../data.txt';
+$textFile2 = __DIR__ . '/../data2.txt';
+
+$files = [];
+$files[] = $textFile;
+$files[] = $textFile2;
+foreach($files as $file)
+{
+    $studentsAndDate = readLecturePortion($file);
+    foreach($studentsAndDate[0] as $row => $data){
+        $student = $lpservice->addStudent($data->getFirstName(), $data->getLastName());
+        if (!in_array($student, $students))
+        {
+            $students[] = $student;
+        }
+    }
+    $lpservice->addLecturePortion($studentsAndDate[1], $students);
 }
+//$students[] = $lpservice->addStudent("ognqn", "vakarelski");
 
-$students[] = $lpservice->addStudent("ognqn", "vakarelski");
-
-$lpservice->addLecturePortion($studentsAndDate[1], $students);
 
 
 ?>

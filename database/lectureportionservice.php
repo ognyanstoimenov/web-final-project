@@ -37,32 +37,50 @@ class LecturePortionService
     }
 
     // Use this after file is parsed.
-    public function addLecturePortion($date, $students)
+    public function addLecturePortion(DateTime $date, $students)
     {
         $lecturePortionsTable = $this->db->getLecturePortionTableName();
         $sql = "INSERT INTO $lecturePortionsTable (date, lecture_id) VALUES (?, ?)";
         $prep = $this->db->getConnection()->prepare($sql);
-        $prep->execute(array($date, $this->currentLectureId));
+        $prep->execute(array($date->format("Y-m-d H:i:s"), $this->currentLectureId));
         $lecturePortionId = $this->db->getConnection()->lastInsertId();
         $junctionTable = $this->db->getJunctionTableName();
         foreach ($students as $student)
         {
             $sql = "INSERT INTO $junctionTable (student_id, lecture_portion_id) VALUES (?,?)";
             $prep = $this->db->getConnection()->prepare($sql);
-            $prep->execute(array($student->getStudentId(), $lecturePortionId));
+            try {
+                $prep->execute(array($student->getStudentId(), $lecturePortionId));
+            }
+            catch (PDOException)
+            {
+                continue;
+            }
         }
-        $this->lecturePortions[] = new LecturePortion($lecturePortionId, $students, DateTime::createFromFormat("Y-m-d H:i:s", $date));
+        $this->lecturePortions[] = new LecturePortion($lecturePortionId, $students, $date);
     }
 
     public function addStudent($firstName, $lastName) : Student|false
     {
         $studentsTable = $this->db->getStudentTableName();
-        $sql = "INSERT INTO $studentsTable (firstname, lastname) VALUES (?,?)";
-        $prep = $this->db->getConnection()->prepare($sql);
-        if ($prep->execute(array($firstName, $lastName)))
+        $sqlGet = "SELECT * FROM $studentsTable WHERE firstname=? AND lastname=?";
+        $sqlAdd = "INSERT INTO $studentsTable (firstname, lastname) VALUES (?,?)";
+        $prep = $this->db->getConnection()->prepare($sqlGet);
+        $prep->execute(array($firstName, $lastName));
+        $studentRows = $prep->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($studentRows)) //Check if user exists
         {
-            $id = $this->db->getConnection()->lastInsertId();
-            return new Student($id, $firstName, $lastName);
+            $studentRow = $studentRows[0];
+            return new Student($studentRow['student_id'], $studentRow['firstname'], $studentRow['lastname']);
+        }
+        else // Add to db
+        {
+            $prep = $this->db->getConnection()->prepare($sqlAdd);
+            if ($prep->execute(array($firstName, $lastName)))
+            {
+                $id = $this->db->getConnection()->lastInsertId();
+                return new Student($id, $firstName, $lastName);
+            }
         }
         return false;
     }
