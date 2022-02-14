@@ -4,7 +4,7 @@ class LecturePortion {
     protected array $presentPeople  = [];
     protected $date ;
 
-    function __construct(array $users,string $date) {
+    function __construct(array $users, string $date) {
 
         foreach($users as $row => $data)
         {

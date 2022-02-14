@@ -9,7 +9,7 @@ CREATE TABLE Users (
 
 CREATE TABLE Courses (
 	course_id INT NOT NULL AUTO_INCREMENT,
-	name VARCHAR(80) NOT NULL UNIQUE,
+	name VARCHAR(80) NOT NULL,
 	course_type ENUM ('Z', 'I'),
 	user_id INT,
 	PRIMARY KEY (course_id),
@@ -18,7 +18,7 @@ CREATE TABLE Courses (
 
 CREATE TABLE Lectures (
     lecture_id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(80) NOT NULL UNIQUE,
+    name VARCHAR(80) NOT NULL,
     course_id INT,
     PRIMARY KEY (lecture_id),
     FOREIGN KEY (course_id) REFERENCES Courses(course_id)
