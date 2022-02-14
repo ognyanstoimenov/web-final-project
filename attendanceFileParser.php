@@ -1,6 +1,6 @@
 <?php
 include 'models/student.php';
-include 'models/lecturePortion.php';
+include 'models/lectureportion.php';
 $txt_file    = file_get_contents('data.txt');
 $rows        = explode("\n", $txt_file);
 $date;
