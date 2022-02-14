@@ -1,4 +1,4 @@
-# web-final-project
+m# web-final-project
 Final project for the web course
 
 ## Requirements:
@@ -8,7 +8,4 @@ Final project for the web course
 ## Installation:
 * Start a php server in project root: `php -S localhost:9000 -t public`
 * Install mysql and don't set root password
-##### For Mac
-* `sh ./setup_database.sh`
-##### For Windows
-* TODO
+* `mysql -u root < webproject.mysql` 
