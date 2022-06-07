@@ -4,7 +4,7 @@ class Course {
 
     private int $course_id;
     private string $name;
-    private CourseType $courseType;
+    private string $courseType;
 
     public function __construct($id, $name, $courseType)
     {
@@ -12,10 +12,10 @@ class Course {
         $this->name = $name;
         switch ($courseType) {
             case "Z":
-                $courseType = CourseType::Z;
+                $courseType = CourseType::$Z;
                 break;
             case "I":
-                $courseType = CourseType::I;
+                $courseType = CourseType::$I;
                 break;
         }
         $this->courseType = $courseType;
@@ -31,7 +31,7 @@ class Course {
         return $this->name;
     }
 
-    public function getCourseType(): CourseType
+    public function getCourseType(): string
     {
         return $this->courseType;
     }
