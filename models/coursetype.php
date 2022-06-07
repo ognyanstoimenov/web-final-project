@@ -1,7 +1,7 @@
 <?php
 
-enum CourseType: string
+class CourseType
 {
-    case Z = 'Задължителна';
-    case I = 'Избираема';
+    static string $Z = 'Задължителна';
+    static string $I = 'Избираема';
 }

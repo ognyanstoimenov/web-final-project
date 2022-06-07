@@ -72,7 +72,7 @@ foreach ($courses as $course) {
     $courseName = $course->getName();
     $courseType = $course->getCourseType();
     $courseId = $course->getCourseId();
-    echo "<a href='course.php?courseId=$courseId'><h3>$courseName [$courseType->value]</h3></a>";
+    echo "<a href='course.php?courseId=$courseId'><h3>$courseName [$courseType]</h3></a>";
 }
 
 
