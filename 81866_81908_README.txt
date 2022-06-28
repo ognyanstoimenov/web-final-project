@@ -1,6 +1,0 @@
-не е финална версия - драфт 1.
-Никола Вакарелски - 81866 и Огнян Стоименов - 81908
-33.1 Система за записване и управление на присъствие по време на презентации, упражнения или лекции - НОВА за w15
-
-github repo: https://github.com/ognyanstoimenov/web-final-project
-https://github.com/ognyanstoimenov/web-final-project/projects/1 - тук е описано разпределението на текущите задачи.
